@@ -188,7 +188,6 @@ def mostrar_estadisticas():
     estadisticas = calcular_estadisticas()
     if not estadisticas:
         return
-
     print("ESTADÍSTICAS DE VISITANTES")
     print("Total de visitantes únicos:", estadisticas["total_visitantes_unicos"])
     print("Activos:", estadisticas["activos"])
@@ -197,3 +196,60 @@ def mostrar_estadisticas():
     print("Visitantes por especie:")
     for especie, cantidad in estadisticas["por_especie"].items():
         print(f"  {especie}: {cantidad}")
+
+def varios_registros(*datos_visitantes):
+    print(f"Registrando{len(datos_visitantes)}")
+    ids_existentes = obtener_ids
+    registrados = 0
+    for datos in datos_visitantes:
+        if len(datos) != 4:
+            print(f"Error {datos} se esperaba id, nombre, especie, estado")
+        else:
+            nuevo_id, nombre, especie, estado = datos
+        if nuevo_id in ids_existentes:
+            print(f"El ID ya existe {nuevo_id}")
+        else:
+            visitante = {
+                "id": nuevo_id,
+                "nombre": nombre,
+                "especie": especie,
+                "estado": estado,
+            }
+        with open ("visitantes.csv", "a") as file:
+            campo = ["id", "nombre", "especie", "estado"]
+            escribir = csv.DictWriter(file, fieldnames=campo)
+            escribir.writerow(visitante)
+        id_visitantes.add(nuevo_id)
+        registrados +=1
+    print(f"Los registros fueron un exito{registrados}/{len(datos_visitantes)}")
+
+def menu_visitantes():
+    while True:
+        print("MENU DE VISITANTES")
+        print("1. Registrar Nuevo Visitante")
+        print("2. Listar Visitantes")
+        print("3. Buscar Visitante")
+        print("4. Actualizar Estado")
+        print("5. Eliminar Visitante")
+        print("6. Mostrar Estadísticas")
+        print("7. Registrar Múltiples Visitantes (*args)")
+        print("8. Volver al Menú Principal")
+        opcion = input("Seleccione una opción: ")
+        match opcion:
+            case '1':
+                registrar_visitantes()
+            case '2':
+                lista_visitantes()
+            case '3':
+                busqueda_visitante()
+            case '4':
+                actualizar_estado()
+            case '5':
+                eliminar_visitante()
+            case '6':
+                mostrar_estadisticas()
+            case '7':
+                varios_registros()
+            case '8':
+                print("Volviendo al menú principal...")
+                break

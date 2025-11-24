@@ -4,20 +4,29 @@ import auth
 #from utils.py import utils.py
 import visitors
 
-def menu_principal ():
+def menu_principal():
+    print("GALACTIC LIBRARY KEEPER - MENU")
+    print("1. Módulo de Visitantes Intergalácticos")
+    print("2. Módulo de Artefactos Recuperados")
+    print("3. Salir")
+
+def main():
     if auth.login():
         while True:
             try:
-                print("Galactic Library Keeper\n1 Módulo de Visitantes Intergalácticos\n2. Módulo de Artefactos Recuperados\n3. Salir\n")
-                seleccion = int(input("Selecione una opcion del 1-3: "))
-                break
+                menu_principal()
+                seleccion = int(input("Seleccione una opción del 1-3: "))
+                if seleccion == 1:
+                    visitors.menu_visitantes()
+                elif seleccion == 2:
+                    artifacts.menu_artifactos()
+                elif seleccion == 3:
+                    print("Saliendo del programa. ¡Hasta luego!")
+                    break
+                else:
+                    print("Opción no válida. Por favor, seleccione una opción del 1 al 3.")
             except ValueError:
-                print("Esa no es una opcion valida")
-                
-    if not auth.login():
-        print("Acceso denegado")
-        
-    
-        
-menu_principal()
+                print("Entrada no válida: por favor ingrese un número entre 1 y 3.")
+
+main()
     
