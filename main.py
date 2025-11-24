@@ -7,10 +7,17 @@ import visitors
 def menu_principal ():
     if auth.login():
         while True:
-            print("Galactic Library Keeper\n1 Módulo de Visitantes Intergalácticos\n2. Módulo de Artefactos Recuperados\n3. Salir\n")
-            seleccion = input("Selecione una opcion del 1-3")
+            try:
+                print("Galactic Library Keeper\n1 Módulo de Visitantes Intergalácticos\n2. Módulo de Artefactos Recuperados\n3. Salir\n")
+                seleccion = int(input("Selecione una opcion del 1-3: "))
+                break
+            except ValueError:
+                print("Esa no es una opcion valida")
+                
     if not auth.login():
         print("Acceso denegado")
+        
+    
         
 menu_principal()
     
