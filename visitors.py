@@ -1,14 +1,13 @@
 import csv
 import os.path
+import storage
 
 #Definimos el set
 id_visitantes = set() #Variable global
 
 #Carga los visitantes del csv para leer, retornamos la lista que esta dentro del archivo
 def cargar_visitantes():
-    with open("visitantes.csv", "r") as file:
-        leer = csv.DictReader(file)
-        return list(leer)
+    return storage.leer_csv("visitantes.csv")
 
 #CARGA LOS IDS  
 def cargar_ids():
@@ -47,22 +46,20 @@ def registrar_visitantes():
         "especie": especie,
         "estado": estado,
     }
-    with open("visitantes.csv", "a") as file: #el "a" es para agregar contenido al final, uno debajo del otro
-        campo = ["id", "nombre", "especie", "estado"]
-        escribir = csv.DictWriter(file, fieldnames=campo)
-        escribir.writerow(visitante)
+    campo = ["id", "nombre", "especie", "estado"]
+    storage.agregar_linea_csv("visitantes.csv", visitante, campo)
     print(f"Visitante registrado satisfactoriamente {nuevo_id}")
     
 def lista_visitantes():
     print("LISTA DE VISITANTES")
-    visitantes = cargar_visitantes
+    visitantes = cargar_visitantes()
     if not visitantes:
         print("Visitante no registrado")
         return
     
-    for visitante in visitante:
+    for visitante in visitantes:
         campos = (visitante["id"], visitante["nombre"], visitante["especie"], visitante["estado"])
-        print(f"ID: {campos[0]} \n Nombre: {campos[1]} \n Especie: {campos[2]} \n Estado: {campos[3]}")
+        print(f"ID: {campos[0]} \nNombre: {campos[1]} \nEspecie: {campos[2]} \nEstado: {campos[3]}")
         
 
 def busqueda_visitante():
@@ -114,12 +111,8 @@ def actualizar_estado():
     if not buscar:
         print("El id es incorrecro")
         return
-    with open("visitantes.csv", "w") as file:
-        campo = ["id", "nombre", "especie", "estado"]
-        
-        rellenar = csv.DictWriter(file, fieldnames= campo)
-        rellenar.writeheader()
-        rellenar.writerows(visitantes)
+    campo = ["id", "nombre", "especie", "estado"]
+    storage.escribir_csv("visitantes.csv", visitantes, campo)
     print("Estado actualizado")
 
 def eliminar_visitante():
@@ -138,12 +131,8 @@ def eliminar_visitante():
         print("El visitante no fue encontrado")
         return
     
-    with open("visitantes.csv", "w") as file:
-        campo = ["id", "nombre", "especie", "estado"]
-        
-        rellenar = csv.DictWriter(file, fieldnames= campo)
-        rellenar.writeheader()
-        rellenar.writerows(visitantes)
+    campo = ["id", "nombre", "especie", "estado"]
+    storage.escribir_csv("visitantes.csv", visitantes, campo)
     print("Visitante se marco como eliminado")
     
 
@@ -215,10 +204,8 @@ def varios_registros(*datos_visitantes):
                 "especie": especie,
                 "estado": estado,
             }
-        with open ("visitantes.csv", "a") as file:
             campo = ["id", "nombre", "especie", "estado"]
-            escribir = csv.DictWriter(file, fieldnames=campo)
-            escribir.writerow(visitante)
+            storage.agregar_linea_csv("visitantes.csv", visitante, campo)
         id_visitantes.add(nuevo_id)
         registrados +=1
     print(f"Los registros fueron un exito{registrados}/{len(datos_visitantes)}")
