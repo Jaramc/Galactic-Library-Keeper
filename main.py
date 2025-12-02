@@ -1,8 +1,6 @@
 import auth
-#from artifacts.py import artifacts.py
-#from storage.py import storage.py
-#from utils.py import utils.py
 import visitors
+import artifacts
 
 def menu_principal():
     print("GALACTIC LIBRARY KEEPER - MENU")
@@ -19,7 +17,7 @@ def main():
                 if seleccion == 1:
                     visitors.menu_visitantes()
                 elif seleccion == 2:
-                    artifacts.menu_artifactos()
+                    artifacts.menu_artefactos()
                 elif seleccion == 3:
                     print("Saliendo del programa. ¡Hasta luego!")
                     break
